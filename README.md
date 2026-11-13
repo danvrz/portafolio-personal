@@ -1,19 +1,19 @@
 # Daniel Vertiz — Portafolio personal
 
-Primera versión local del portafolio, creada a partir de la plantilla oficial `react` de Vite. Usa React, JavaScript y CSS. No requiere backend, base de datos ni cuentas externas.
+Portafolio personal estático, creada a partir de la plantilla oficial `react` de Vite. Usa React, JavaScript y CSS. No requiere backend, base de datos ni cuentas externas.
 
 ## Empezar en VS Code
 
-Abre la carpeta `daniel-vertiz` con **Archivo → Abrir carpeta**. Abre una terminal integrada con **Terminal → Nueva terminal**. Necesitas Node.js compatible con Vite (22.12+ o 24 LTS) y npm. En el entorno de creación se verificaron Node 24.22.1, npm 11.9.0, Git 2.52.0 y Chromium.
+Abre la carpeta `C:\Portafolio_Datos\portafolio-personal` con **Archivo → Abrir carpeta**. Abre una terminal integrada con **Terminal → Nueva terminal**. Necesitas Node.js compatible con Vite (22.12+ o 24 LTS) y npm. En el entorno de creación se verificaron Node 24.22.1, npm 11.9.0, Git 2.52.0 y Chromium.
 
 ```bash
 npm install
 npm run dev
 ```
 
-La instalación solo se necesita la primera vez o cuando cambian las dependencias. Abre la dirección que imprime Vite, normalmente http://localhost:5173. Si el puerto está ocupado, usa el que indique la terminal. Para detener el servidor, pulsa **Ctrl+C** en esa misma terminal. No hace falta cerrar VS Code.
+La instalación solo se necesita la primera vez o cuando cambian las dependencias. Abre la dirección que imprime Vite, normalmente http://localhost:5173/portafolio-personal/. Si el puerto está ocupado, usa el que indique la terminal. Para detener el servidor, pulsa **Ctrl+C** en esa misma terminal. No hace falta cerrar VS Code.
 
-En un entorno remoto o de nube, `localhost` corresponde al servidor remoto: usa su vista previa o reenvío de puertos. Los archivos de este proyecto están en `/workspace/daniel-vertiz`; para ejecutarlos en tu computadora debes tener una copia local de esa carpeta (sin `node_modules`, `dist` ni `.npm-cache`).
+La copia de trabajo está en `C:\Portafolio_Datos\portafolio-personal`. No se incluyen `node_modules`, `dist` ni cachés en Git.
 
 ## Cómo está organizada la aplicación
 
@@ -25,7 +25,7 @@ En un entorno remoto o de nube, `localhost` corresponde al servidor remoto: usa 
 - `src/components/ProjectCard.jsx`: tarjeta reutilizable para cada proyecto.
 - `src/components/ScientificVisual.jsx`: ilustraciones SVG conceptuales, sin datos reales.
 - `src/data/projects.js`: catálogo y contenido de los proyectos.
-- `src/data/profile.js`: especialidades y marcadores de contacto.
+- `src/data/profile.js`: especialidades, usuarios y enlaces de contacto.
 - `src/index.css`: tipografía, paleta, espacios, componentes y adaptación a pantallas pequeñas.
 - `public/favicon.svg`: icono de la pestaña.
 - `package.json`: dependencias y comandos; `package-lock.json`: versiones instaladas reproducibles.
@@ -58,7 +58,7 @@ La tarjeta, el filtro y el detalle se generan automáticamente. Todos se marcan 
 
 ## Completar contacto y trayectoria
 
-En `src/data/profile.js`, reemplaza `url: null` por tus enlaces confirmados, entre comillas. Para correo usa `mailto:tu-direccion-real`. Hasta entonces solo se muestran marcadores, sin enlaces ficticios. La formación y experiencia se completan en `src/pages/About.jsx`.
+En `src/data/profile.js`, actualiza `value` (usuario o correo visible) y `url` (destino del enlace) cuando cambien tus contactos. Para correo conserva el prefijo `mailto:`. Los perfiles de GitHub y LinkedIn se abren en otra pestaña. La formación y experiencia se completan en `src/pages/About.jsx`.
 
 ## Verificación
 
@@ -67,14 +67,32 @@ npm run build
 npm run preview
 ```
 
-`build` genera el sitio estático en `dist`. `preview` permite revisar esa compilación localmente (normalmente http://localhost:4173); no publica nada. Detén también este servidor con Ctrl+C. `npm run lint` ejecuta el analizador incluido en la plantilla oficial.
+`build` genera el sitio estático en `dist`. `preview` permite revisar esa compilación localmente (normalmente http://localhost:4173/portafolio-personal/); no publica nada. Detén también este servidor con Ctrl+C. `npm run lint` ejecuta el analizador incluido en la plantilla oficial.
 
 Al revisar: navega por las cuatro secciones, abre los tres detalles, filtra proyectos, usa atrás/adelante, recarga un detalle y prueba una ventana estrecha. Usa Tab para comprobar enlaces, filtros y foco visible.
 
-## Alcance de esta fase
+## Publicación en GitHub Pages
 
-Los tres proyectos son propuestas de demostración sin análisis ejecutados ni resultados. La trayectoria y los contactos están pendientes de información confirmada. No se creó repositorio remoto, no se hizo commit y no se publicó la web. La fase de GitHub comienza después de aprobar el diseño.
+Vite compila la aplicación; GitHub Pages sirve los archivos generados. El destino configurado es `https://danvrz.github.io/portafolio-personal/`.
 
-## Estado de validación de esta entrega
+- `vite.config.js` establece `base: '/portafolio-personal/'` para cargar los recursos desde el subdirectorio correcto.
+- `.github/workflows/deploy.yml` instala con `npm ci`, compila con Node.js 24 y publica `dist` al recibir cambios en `main`. También puede ejecutarse manualmente desde Actions.
+- En el repositorio, selecciona **Settings → Pages → Source → GitHub Actions**. El plan de la cuenta debe permitir Pages con la visibilidad elegida; cambiar un repositorio privado a público requiere una decisión explícita del propietario.
+- Revisa el resultado del flujo en **Actions** antes de compartir la dirección. Tener estos archivos no significa que el sitio ya esté publicado.
 
-Compilación y analizador de código correctos. La revisión en navegador del entorno remoto quedó pendiente: la infraestructura de vista previa no pudo conectar el puerto 4173 (`relay ... timed out waiting for relay readiness`). Esto no verifica ni descarta problemas visuales; revisa la aplicación localmente antes de aprobar el diseño.
+Para actualizarlo después de la primera publicación:
+
+```bash
+npm run build
+git add <archivos-modificados>
+git commit -m "Descripción del cambio"
+git push
+```
+
+Cada push a `main` inicia una nueva publicación. La navegación usa fragmentos (`#/proyectos`, por ejemplo), por lo que las páginas de detalle no necesitan reglas adicionales del servidor.
+
+## Alcance y verificación
+
+Los tres proyectos son propuestas de demostración sin análisis ejecutados ni resultados. Los contactos están confirmados por Daniel; la trayectoria se completará con información confirmada.
+
+La configuración para Pages se comprobó con `npm run build` y con la compilación local servida bajo `/portafolio-personal/`: inicio, proyectos, los tres detalles, sobre mí y contacto. La publicación remota se verifica por separado en GitHub Actions y en la dirección pública.
